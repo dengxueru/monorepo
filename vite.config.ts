@@ -1,12 +1,11 @@
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
-import autoprefixer from 'autoprefixer'
+import autoprefixer from "autoprefixer";
+import dts from "vite-plugin-dts";
 import path from "path";
 
 export default defineConfig({
-  plugins: [
-    vue(),
-  ],
+  plugins: [vue(), dts()],
   css: {
     postcss: {
       plugins: [
@@ -16,21 +15,20 @@ export default defineConfig({
             "iOS 7.1",
             "Chrome > 31",
             "ff > 31",
-            "ie >= 8"
+            "ie >= 8",
           ],
-          grid: true
-        })
-      ]
-    }
+          grid: true,
+        }),
+      ],
+    },
   },
   build: {
     outDir: "dist",
     lib: {
-      entry: path.resolve(__dirname, "./packages/components/index.js"),
+      entry: path.resolve(__dirname, "./packages/components/index.ts"),
       name: "TestUI",
       fileName: (format) => `index.${format}.js`,
       formats: ["es", "cjs", "umd"],
-      preserveModules: true
     },
     rollupOptions: {
       external: ["vue"],
