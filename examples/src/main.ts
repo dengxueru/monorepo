@@ -1,7 +1,8 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 
-import EL from "@init/components";
+// @ts-ignore
+import EL from "../../dist/index.es.js";
 
 const app = createApp(App);
 app.use(EL);

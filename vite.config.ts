@@ -5,7 +5,14 @@ import dts from "vite-plugin-dts";
 import path from "path";
 
 export default defineConfig({
-  plugins: [vue(), dts()],
+  plugins: [
+    vue(),
+    dts({
+      tsconfigPath: "./tsconfig.json",
+      include: ["packages/components/**/*"],
+      insertTypesEntry: true,
+    }),
+  ],
   css: {
     postcss: {
       plugins: [
@@ -26,18 +33,25 @@ export default defineConfig({
     outDir: "dist",
     lib: {
       entry: path.resolve(__dirname, "./packages/components/index.ts"),
-      name: "TestUI",
-      fileName: (format) => `index.${format}.js`,
-      formats: ["es", "cjs", "umd"],
     },
     rollupOptions: {
       external: ["vue"],
-      output: {
-        exports: "named",
-        globals: {
-          vue: "Vue",
+      output: [
+        {
+          format: "es",
+          entryFileNames: "[name].js",
+          preserveModules: true,
+          dir: "dist/es",
+          exports: "named",
         },
-      },
+        {
+          format: "cjs",
+          entryFileNames: "[name].js",
+          preserveModules: true,
+          dir: "dist/cjs",
+          exports: "named",
+        },
+      ],
     },
   },
 });
